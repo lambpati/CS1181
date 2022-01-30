@@ -11,12 +11,12 @@
 
 // Calculates factor using APR and the number of years
 double calculateFactor(double aprPercent, int totalPayments){
-    double decIntPerPayment = aprPercent/100;
-    double factor = (1-pow((1+decIntPerPayment),-1*totalPayments))/decIntPerPayment;
+    double decIntPerPayment = (aprPercent/100)/12;
+    double factor = (1-pow((1+decIntPerPayment),(-1*totalPayments*12)))/decIntPerPayment;
     return factor;
 }
 
-// Calculates monthly payment using loan amount and calculated factor 
+// Calculates monthly payment using loan amount and calculated factor
 double calculatePayment(double loanAmount, double factor){
     double paymentSize = loanAmount/factor;
 
