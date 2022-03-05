@@ -33,24 +33,56 @@ std::string convertFromExcel(std::string &col, std::string &row){
   str += 'R';
   str += row;
   str += 'C';
-  if(col == "A"){
-    str += std::to_string(1);
-    return str;
-  }
-  reverse(col.begin(), col.end());
-  for(int i = 0; i < col.size(); i++){
-    if(col.size() >= 2){
-      conversion = ((int) col[i] % 65)+1;
-      columns += pow(26, i)*conversion;
-    }
-    else{
-      conversion = ((int) col[i] % 65);
-      columns += 26+conversion;
-    }
+  // if(col == "A"){
+  //   str += std::to_string(1);
+  //   return str;
+    int base = 26;
+    for(auto it = col.begin(); it != col.end(); it++){
+      columns *= base;
+          columns += (*it - 'A' + 1);
+    // }
+  // }
+  // reverse(col.begin(), col.end());
+  // for(int i = 0; i < col.size(); i++){
+  //   if(col.size() >= 2){
+  //     conversion = ((int) col[i] % 65)+1;
+  //     columns += pow(26, i)*conversion;
+  //   }
+  //   else{
+  //     conversion = ((int) col[i] % 65);
+  //     columns += 26+conversion;
+  //   }
   }
   str += std::to_string(columns);
   return str;
 }
+
+// // Uses Radix-26 algorithm to convert from RxxCyy to [A-Z]xx
+// std::string convertFromExcel(std::string &col, std::string &row){
+//   int columns = 0;
+//   int conversion;
+//   std::string str;
+//   str += 'R';
+//   str += row;
+//   str += 'C';
+//   if(col == "A"){
+//     str += std::to_string(1);
+//     return str;
+//   }
+//   reverse(col.begin(), col.end());
+//   for(int i = 0; i < col.size(); i++){
+//     if(col.size() >= 2){
+//       conversion = ((int) col[i] % 65)+1;
+//       columns += pow(26, i)*conversion;
+//     }
+//     else{
+//       conversion = ((int) col[i] % 65);
+//       columns += 26+conversion;
+//     }
+//   }
+//   str += std::to_string(columns);
+//   return str;
+// }
 
 // General driver to distinguish inputs of strings.
 std::string convertString(const std::string &s){
