@@ -9,9 +9,13 @@
 #include <regex>
 #include <fstream>
 
-int sum = 26;
-int count = 0;
+const int N = 26;
+int sum(N);
+long count(0);
+std::vector<bool> valid(26,1);
 
+
+// Populates the location list with distance from 'a'
 std::vector<bool> findPath(std::string &word){
     std::vector<bool> locations(26, 0);
     for(int pos = 0; pos < word.size(); pos++){
@@ -19,16 +23,19 @@ std::vector<bool> findPath(std::string &word){
     }
     return locations;
 }
+
+// Set valid at letter to 0 when correctly guessed
 std::vector<bool> noShock(std::vector<bool> &location, std::vector<bool> &valid){
     for(int letter = 0; letter < 26; letter++){
         if(valid[letter] && location[letter]){
             valid[letter] = 0;
             sum--;
         }
-    }
+      }
     return valid;
 }
 
+// Set valid at letter to 0 when incorrectly guessed
 std::vector<bool> shock(std::vector<bool> &location, std::vector<bool> &valid){
     for(int letter = 0; letter < 26; letter++){
         if(valid[letter] && !location[letter]){
@@ -39,22 +46,20 @@ std::vector<bool> shock(std::vector<bool> &location, std::vector<bool> &valid){
     return valid;
 }
 
+// Check if valid at letter
 std::vector<bool> guess(std::string &word, std::vector<bool> &valid){
-    int letter = word.at(0) - 'a';
-    if(valid[letter]){
-        sum--;
-    }
-    valid[letter] = 0;
+  int letter = word[0] - 'a';
+  if(valid[letter]){--sum;} valid[letter] = 0;
     return valid;
 }
 
+// Determine action according to ! . or ?
 int determineAction(std::string &str){
     std::string word;
-    std::vector<bool> valid(26,1);
     word = std::regex_replace(str, std::regex("[!.? ]"), "$2");
     std::vector<bool> loc = findPath(word);
     if(str.find('!') != std::string::npos){
-        std::cout << "! activated" << std::endl; 
+        std::cout << "! activated" << std::endl;
         shock(loc, valid);
     }
     else if(str.find('.') != std::string::npos){
@@ -87,7 +92,7 @@ int main(int argc, char const *argv[]) {
         // Assuming first line is always the amount of times to iterate
         lineNum = std::stoi(str);
 
-        for(int i = 0; i < lineNum; i++){
+        while(lineNum--){
             std::getline(btest, str);
             std::cout << determineAction(str) << std::endl;
         }
